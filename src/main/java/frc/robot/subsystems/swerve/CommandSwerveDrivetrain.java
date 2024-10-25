@@ -21,6 +21,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -172,16 +173,18 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements ISwerve
     }
 
     public void reset() {
-        m_pigeon2.reset();
+        m_pigeon2.setYaw(0);
     }
 
     private PoseEstimate validatePoseEstimate(PoseEstimate poseEstimate, double deltaSeconds) {
         if (poseEstimate == null) return null;
         Pose2d pose2d = poseEstimate.pose;
         Translation2d trans = pose2d.getTranslation();
+        m_odometry.setVisionMeasurementStdDevs(VecBuilder.fill(0.6, 0.6, 99999));
         if (trans.getX() == 0 && trans.getY() == 0) {
             return null;
         }
+        if (Robot.isInAuton()) return null;
         return poseEstimate;
     }
 

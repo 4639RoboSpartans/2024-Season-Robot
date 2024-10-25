@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
         if (autonomousCommand != null) {
             SmartDashboard.putString("Auton selected", autonomousCommand.getName());
             CommandScheduler.getInstance().schedule(
-                Commands.sequence(robotContainer.getDelay(), autonomousCommand)
+                autonomousCommand
             );
         }
         isAuton = true;

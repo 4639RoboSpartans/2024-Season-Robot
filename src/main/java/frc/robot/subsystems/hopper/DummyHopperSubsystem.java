@@ -21,6 +21,11 @@ public class DummyHopperSubsystem extends SubsystemBase implements IHopperSubsys
         return new RunCommand(() -> hasNote(), this);
     }
 
+    @Override
+    public boolean isIrActive() {
+        return false;
+    }
+
     public void periodic() {
         SmartDashboard.putBoolean("has note", hasNote());
     }

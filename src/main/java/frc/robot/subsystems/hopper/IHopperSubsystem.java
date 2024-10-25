@@ -10,4 +10,6 @@ public interface IHopperSubsystem extends Subsystem {
     void run(boolean checkNOte, double speed, boolean reversed);
     boolean hasNote();
     Command toggleIR();
+
+    boolean isIrActive();
 }

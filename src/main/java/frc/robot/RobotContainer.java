@@ -60,7 +60,6 @@ public class RobotContainer {
     private final LEDStrip ledStrip;
 
     private final SendableChooser<Command> autos;
-    private final SendableChooser<Double> delayTime;
     public static SendableChooser<Boolean> alliance;
 
 
@@ -80,19 +79,11 @@ public class RobotContainer {
 
         autos = new SendableChooser<>();
         autos.setDefaultOption("null auto", new WaitCommand(1));
-        autos.addOption("preloaded", AutoHelper.shoot());
+        autos.addOption("preloaded", new ManualShootCommand(shooter, hopper, ledStrip));
         for (Command i : AutoFactory.getAutos()) {
             autos.addOption(i.getName(), i);
         }
         SmartDashboard.putData("Autons", autos);
-        delayTime = new SendableChooser<Double>();
-        delayTime.setDefaultOption("0", 0.0);
-        delayTime.addOption("0", 0.0);
-        delayTime.addOption("1", 1.0);
-        delayTime.addOption("2", 2.0);
-        delayTime.addOption("3", 3.0);
-        delayTime.addOption("4", 4.0);
-        SmartDashboard.putData(delayTime);
 
         alliance = new SendableChooser<>();
         alliance.addOption("Red", true);
@@ -177,16 +168,24 @@ public class RobotContainer {
         DriverControls.ClimberSwap1Button.whileTrue(new ManualClimbCommand(climber, 1, -1));
         DriverControls.ClimberSwap2Button.whileTrue(new ManualClimbCommand(climber, -1, 1));
 
-        OperatorControls.IntakeButton.whileTrue(intake.intake().alongWith(Commands.run(() -> hopper.run(true, HopperInfo.HOPPER_SPEED)))).onFalse(intake.stopIntake().alongWith(Commands.runOnce(hopper::stop)));
+        OperatorControls.IntakeButton.whileTrue(intake.intake()
+                .alongWith(Commands.run(() -> hopper.run(hopper.isIrActive(), HopperInfo.HOPPER_SPEED)))
+                .until(new Trigger(hopper::hasNote).and(new Trigger(hopper::isIrActive)))
+                        .andThen(intake.setExtended(ExtensionState.RETRACTED)
+                                .alongWith(intake.stopIntake())))
+                .onFalse(intake.stopIntake().alongWith(Commands.runOnce(hopper::stop)));
 
-        OperatorControls.OuttakeButton.whileTrue(intake.outtake().alongWith(Commands.run(() -> hopper.run(false, -HopperInfo.HOPPER_SPEED)))).onFalse(intake.stopIntake().alongWith(Commands.runOnce(hopper::stop)));
+        OperatorControls.OuttakeButton.whileTrue(intake.outtake()
+                .alongWith(Commands.run(() -> hopper.run(false, -HopperInfo.HOPPER_SPEED))))
+                .onFalse(intake.stopIntake().alongWith(Commands.runOnce(hopper::stop)));
 
         OperatorControls.IntakeExtendButton.onTrue(intake.setExtended(IIntakeSubsystem.ExtensionState.EXTENDED));
 
         OperatorControls.IntakeRetractButton.onTrue(intake.setExtended(IIntakeSubsystem.ExtensionState.RETRACTED));
 
         OperatorControls.RunSpeakerShooterButton.whileTrue(new AutoSpeakerCommand(shooter, hopper, ledStrip));
-        OperatorControls.RunAmpShooterButton.whileTrue(intake.setExtended(IIntakeSubsystem.ExtensionState.AMP).andThen(intake.amp()));
+        OperatorControls.RunAmpShooterButton.whileTrue(intake.setExtended(IIntakeSubsystem.ExtensionState.AMP).andThen(intake.amp()))
+        .onFalse(intake.setExtended(ExtensionState.RETRACTED).alongWith(intake.stopIntake()));
         OperatorControls.ManualShooterButton.whileTrue(new ManualShootCommand(shooter, hopper, ledStrip));
         OperatorControls.LaunchShooterButton.whileTrue(new LaunchCommand(shooter, hopper, ledStrip));
 
@@ -204,10 +203,6 @@ public class RobotContainer {
                 .and(() -> !Robot.isInAuton())
                 .and(hopper::hasNote)
                 .whileTrue(new ShooterSpinupCommand(shooter));
-    }
-
-    public Command getDelay() {
-        return Commands.waitSeconds(delayTime.getSelected());
     }
 
     public Command getAutonomousCommand() {

@@ -31,8 +31,6 @@ public class IntakeSubsystem extends SubsystemBase implements IIntakeSubsystem {
 
     private final ProfiledPIDController pivotPID;
 
-    SysIdRoutine routine;
-
     public IntakeSubsystem() {
         pivotMotorLeft = new CANSparkMax(IDs.INTAKE_PIVOT_MOTOR_LEFT,
                 CANSparkMax.MotorType.kBrushless);
@@ -59,20 +57,7 @@ public class IntakeSubsystem extends SubsystemBase implements IIntakeSubsystem {
         );
 
         encoder = new DutyCycleEncoder(IDs.INTAKE_ENCODER_DIO_PORT);
-        encoder.setDutyCycleRange(-2, 2);
-
-        routine = new SysIdRoutine(
-                new SysIdRoutine.Config(null, Volts.of(5), Seconds.of(100), null),
-                new SysIdRoutine.Mechanism((Measure<Voltage> volts) -> {
-                    pivotMotorLeft.setVoltage(volts.in(Volts));
-                    pivotMotorRight.setVoltage(volts.in(Volts));
-                },
-                        log -> {
-                            log.motor("intake-pivot")
-                                    .voltage(Volts.of(pivotMotorLeft.get() * RobotController.getBatteryVoltage()))
-                                    .angularPosition(Rotations.of(getCurrentAngle()));
-                        }, this)
-        );
+        encoder.setDistancePerRotation(0.75);
 
         pivotMotorRight.setInverted(true);
         setExtendedState(ExtensionState.RETRACTED);
@@ -80,7 +65,7 @@ public class IntakeSubsystem extends SubsystemBase implements IIntakeSubsystem {
 
     @Override
     public Command setExtended(ExtensionState state) {
-        return runOnce(() -> setExtendedState(state));
+        return Commands.runOnce(() -> setExtendedState(state));
     }
 
     private void setExtendedState(ExtensionState extended) {
@@ -140,7 +125,7 @@ public class IntakeSubsystem extends SubsystemBase implements IIntakeSubsystem {
     }
 
     public double getCurrentAngle() {
-        return ((encoder.getAbsolutePosition() + 0.15) % 1 + 1) % 1;
+        return encoder.get();
     }
 
     @Override
@@ -155,14 +140,5 @@ public class IntakeSubsystem extends SubsystemBase implements IIntakeSubsystem {
         
         pivotMotorRight.set(pidOutput);
         pivotMotorLeft.set(pidOutput);
-
-        if(Robot.getDisabled()) {
-            pivotMotorLeft.setIdleMode(CANSparkBase.IdleMode.kCoast);
-            pivotMotorRight.setIdleMode(CANSparkBase.IdleMode.kCoast);
-        }
-        else {
-            pivotMotorLeft.setIdleMode(CANSparkBase.IdleMode.kBrake);
-            pivotMotorRight.setIdleMode(CANSparkBase.IdleMode.kBrake);
-        }
     }
 }

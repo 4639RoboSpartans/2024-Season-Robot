@@ -21,16 +21,16 @@ public final class RobotInfo {
     public static final class IntakeInfo {
 
         public static final double INTAKE_SPEED = -0.95;
-        public static final double AMP_OUTTAKE_SPEED = 0.6;
-        public static final double INTAKE_PIVOT_DEFAULT_SETPOINT = 0.28;
-        public static final double INTAKE_PIVOT_EXTENDED_SETPOINT = 0.94;
-        public static final double INTAKE_PIVOT_AMP_SETPOINT = 0.35;
+        public static final double AMP_OUTTAKE_SPEED = 0.8;
+        public static final double INTAKE_PIVOT_DEFAULT_SETPOINT = 0.14;
+        public static final double INTAKE_PIVOT_EXTENDED_SETPOINT = 0.8;
+        public static final double INTAKE_PIVOT_AMP_SETPOINT = 0.20;
         public static final PIDTemplate INTAKE_PIVOT_PID_CONSTANTS = new PIDTemplate(2.5, 0, 0);
     }
 
     public static final class HopperInfo {
 
-        public static final double HOPPER_SPEED = 0.6;
+        public static final double HOPPER_SPEED = 0.8;
     }
 
     public static final class ClimberInfo {

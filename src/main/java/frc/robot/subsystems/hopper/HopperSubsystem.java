@@ -16,7 +16,7 @@ public class HopperSubsystem extends SubsystemBase implements IHopperSubsystem {
     private final DigitalInput ir;
     private boolean hasNote = false;
     private boolean irActive;
-    private Debouncer irDebouncer = new Debouncer(0.2);
+    private Debouncer irDebouncer = new Debouncer(0.5);
 
     public HopperSubsystem(int motorID) {
         motor = new CANSparkMax(motorID, CANSparkMax.MotorType.kBrushed);
@@ -55,7 +55,7 @@ public class HopperSubsystem extends SubsystemBase implements IHopperSubsystem {
     }
 
     public boolean hasNote() {
-        return hasNote && irActive;
+        return hasNote || (!irActive);
     }
 
     public boolean isIrActive() {
@@ -65,7 +65,7 @@ public class HopperSubsystem extends SubsystemBase implements IHopperSubsystem {
     public Command toggleIR() {
         return Commands.runOnce(() -> {
             irActive = !irActive;
-        }, this);
+        });
     }
 
     @Override

@@ -125,8 +125,8 @@ public class AimUtil {
         double dist = getSpeakerDist();
         double angle = InterpolatingTables.getAngleTable().get(dist);
         double speed = InterpolatingTables.getSpeedTable().get(dist);
-        angle -= Controls.DriverControls.SwerveForwardAxis.getAsDouble();
-        speed -= Controls.DriverControls.SwerveForwardAxis.getAsDouble();
+        angle -= Controls.DriverControls.SwerveForwardAxis.getAsDouble() * 0.1;
+        speed -= Controls.DriverControls.SwerveForwardAxis.getAsDouble() * 0.1;
         return new double[]{speed, angle};
     }
 }
