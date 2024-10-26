@@ -97,6 +97,7 @@ public class FalconShooterSubsystem extends SubsystemBase implements IShooterSub
         }
         SmartDashboard.putNumber("Shooter/shooter speed", getTargetSpeed());
         SmartDashboard.putString("Shooter/shooting mode", shootingMode.toString());
+        SmartDashboard.putNumber("Shooter/shooter current angle", shooterPivot.getCurrentAngle());
     }
 
     public void setShootingMode(ShootingMode shooting) {

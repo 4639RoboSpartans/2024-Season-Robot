@@ -158,7 +158,9 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements ISwerve
         SmartDashboard.putBoolean("Drive/SOTF", Controls.DriverControls.SOTF.getAsBoolean());
         SmartDashboard.putBoolean("Drive/Amp Align", Controls.DriverControls.AmpAlignButton.getAsBoolean());
         SmartDashboard.putBoolean("is red", DriverStationUtil.isRed());
-        PoseEstimate pose = validatePoseEstimate(LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight"), Timer.getFPGATimestamp());
+        PoseEstimate pose;
+        if (DriverStationUtil.isRed()) pose = validatePoseEstimate(LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight"), Timer.getFPGATimestamp());
+        else pose = validatePoseEstimate(LimelightHelpers.getBotPoseEstimate_wpiRed("limelight"), Timer.getFPGATimestamp());
         if (pose != null) {
             addVisionMeasurement(pose.pose, Timer.getFPGATimestamp());
         }
@@ -180,7 +182,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements ISwerve
         if (poseEstimate == null) return null;
         Pose2d pose2d = poseEstimate.pose;
         Translation2d trans = pose2d.getTranslation();
-        m_odometry.setVisionMeasurementStdDevs(VecBuilder.fill(0.6, 0.6, 99999));
         if (trans.getX() == 0 && trans.getY() == 0) {
             return null;
         }

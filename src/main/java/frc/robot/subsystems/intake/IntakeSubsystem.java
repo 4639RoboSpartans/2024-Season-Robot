@@ -1,6 +1,7 @@
 package frc.robot.subsystems.intake;
 
 import com.revrobotics.CANSparkBase;
+import com.revrobotics.CANSparkLowLevel;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -125,7 +126,7 @@ public class IntakeSubsystem extends SubsystemBase implements IIntakeSubsystem {
     }
 
     public double getCurrentAngle() {
-        return encoder.get();
+        return ((encoder.get() + 0.15) % 1 + 1) % 1;
     }
 
     @Override
@@ -140,5 +141,12 @@ public class IntakeSubsystem extends SubsystemBase implements IIntakeSubsystem {
         
         pivotMotorRight.set(pidOutput);
         pivotMotorLeft.set(pidOutput);
+
+        CANSparkBase.IdleMode idleMode = CANSparkBase.IdleMode.kBrake;
+        if (Robot.getDisabled()) {
+            idleMode = CANSparkBase.IdleMode.kCoast;
+        }
+        pivotMotorLeft.setIdleMode(idleMode);
+        pivotMotorRight.setIdleMode(idleMode);
     }
 }

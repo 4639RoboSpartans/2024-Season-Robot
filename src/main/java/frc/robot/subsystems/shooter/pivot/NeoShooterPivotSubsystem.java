@@ -30,6 +30,7 @@ public class NeoShooterPivotSubsystem extends SubsystemBase implements IShooterP
         encoder = new DutyCycleEncoder(IDs.SHOOTER_PIVOT_ENCODER_DIO_PORT);
 
         aimMotorRight = new CANSparkMax(aimMotorRightID, CANSparkMax.MotorType.kBrushless);
+        aimMotorRight.setIdleMode(CANSparkBase.IdleMode.kBrake);
         aimMotorRight.follow(aimMotorLeft, true);
 
         this.shooter = shooter;

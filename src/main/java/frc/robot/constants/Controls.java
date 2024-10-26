@@ -5,6 +5,7 @@ import frc.robot.oi.OI;
 import frc.robot.oi.OI.Buttons;
 import frc.robot.subsystems.SubsystemManager;
 import frc.robot.util.AimUtil;
+import frc.robot.util.DriverStationUtil;
 
 import java.util.function.DoubleSupplier;
 
@@ -13,11 +14,11 @@ public final class Controls {
     public static final class DriverControls {
         public static final DoubleSupplier SwerveForwardAxis = () -> {
             OI oi = SubsystemManager.getOI();
-            return oi.driverController().getAxis(OI.Axes.LEFT_STICK_Y) * RobotInfo.SwerveInfo.CURRENT_MAX_ROBOT_MPS;
+            return (DriverStationUtil.isRed()? -1:1) * oi.driverController().getAxis(OI.Axes.LEFT_STICK_Y) * RobotInfo.SwerveInfo.CURRENT_MAX_ROBOT_MPS;
         };
         public static final DoubleSupplier SwerveStrafeAxis = () -> {
             OI oi = SubsystemManager.getOI();
-            return -oi.driverController().getAxis(OI.Axes.LEFT_STICK_X) * RobotInfo.SwerveInfo.CURRENT_MAX_ROBOT_MPS;
+            return (DriverStationUtil.isRed()?1:-1) * oi.driverController().getAxis(OI.Axes.LEFT_STICK_X) * RobotInfo.SwerveInfo.CURRENT_MAX_ROBOT_MPS;
         };
         public static final DoubleSupplier SwerveRotationAxis = () -> {
             OI oi = SubsystemManager.getOI();

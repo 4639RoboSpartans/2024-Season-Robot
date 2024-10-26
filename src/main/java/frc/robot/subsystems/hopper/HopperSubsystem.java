@@ -16,7 +16,7 @@ public class HopperSubsystem extends SubsystemBase implements IHopperSubsystem {
     private final DigitalInput ir;
     private boolean hasNote = false;
     private boolean irActive;
-    private Debouncer irDebouncer = new Debouncer(0.5);
+    private Debouncer irDebouncer = new Debouncer(0.65);
 
     public HopperSubsystem(int motorID) {
         motor = new CANSparkMax(motorID, CANSparkMax.MotorType.kBrushed);
@@ -71,7 +71,7 @@ public class HopperSubsystem extends SubsystemBase implements IHopperSubsystem {
     @Override
     public void periodic() {
         hasNote = irDebouncer.calculate(!ir.get());
-        SmartDashboard.putBoolean("Hopper/has note", hasNote);
+        SmartDashboard.putBoolean("Hopper/has note", hasNote());
         SmartDashboard.putBoolean("Hopper/ir active", irActive);
     }
 }

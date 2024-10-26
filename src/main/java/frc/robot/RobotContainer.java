@@ -193,16 +193,6 @@ public class RobotContainer {
 
         DriverControls.ResetGyroButton1.and(DriverControls.ResetGyroButton2).
                 whileTrue(Commands.runOnce(swerveDriveSubsystem::reset));
-
-        Controls.canSOTF
-                .and(DriverControls.SOTF)
-                .and(() -> !Robot.isInAuton())
-                .whileTrue(AutoHelper.shoot());
-        Controls.DriverControls.SOTF
-                .and(Controls.canSOTF.negate())
-                .and(() -> !Robot.isInAuton())
-                .and(hopper::hasNote)
-                .whileTrue(new ShooterSpinupCommand(shooter));
     }
 
     public Command getAutonomousCommand() {
