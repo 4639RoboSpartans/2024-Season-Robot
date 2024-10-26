@@ -29,8 +29,6 @@ public interface ISwerveDriveSubsystem extends Subsystem, Sendable {
 
     Command SOTFCommand();
 
-    Trigger inLaunchRange();
-
     Command followChoreoPath(ChoreoTrajectory trajectory, boolean resetPosition);
 
 
@@ -41,6 +39,4 @@ public interface ISwerveDriveSubsystem extends Subsystem, Sendable {
     Trigger inShootingRange();
 
     Trigger inShootingSector();
-
-    Trigger inSpinupRange();
 }

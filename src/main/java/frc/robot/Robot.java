@@ -7,7 +7,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.tuning.RobotConfiguration;
 
 public class Robot extends TimedRobot {
@@ -16,6 +17,7 @@ public class Robot extends TimedRobot {
     private Command autonomousCommand;
 
     private RobotContainer robotContainer;
+
     public static boolean isInAuton() {
         return isAuton;
     }
@@ -57,9 +59,7 @@ public class Robot extends TimedRobot {
         autonomousCommand = robotContainer.getAutonomousCommand();
         if (autonomousCommand != null) {
             SmartDashboard.putString("Auton selected", autonomousCommand.getName());
-            CommandScheduler.getInstance().schedule(
-                Commands.sequence(robotContainer.getDelay(), autonomousCommand)
-            );
+            CommandScheduler.getInstance().schedule(autonomousCommand);
         }
         isAuton = true;
     }

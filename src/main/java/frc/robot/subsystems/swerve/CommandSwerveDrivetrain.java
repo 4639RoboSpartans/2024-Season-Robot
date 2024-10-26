@@ -230,16 +230,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements ISwerve
         return inShootingSector;
     }
 
-    @Override
-    public Trigger inSpinupRange() {
-        return inSpinupRange;
-    }
-
-    @Override
-    public Trigger inLaunchRange() {
-        return inLaunchRange;
-    }
-
     /**
      * Returns a command that makes the robot follow a Choreo path using the ChoreoLib library.
      *
@@ -295,7 +285,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements ISwerve
     }
 
     private boolean inShootingRangeSupplier() {
-        return AimUtil.getSpeakerDist() <= 3.5;
+        return AimUtil.getSpeakerDist() <= 5;
     }
 
     private boolean inShootingSectorSupplier() {

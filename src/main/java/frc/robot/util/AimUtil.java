@@ -120,12 +120,12 @@ public class AimUtil {
         return getPoseVector(getAmpPose());
     }
 
-    public static double[] getShooterSetpoint() {
+    public static ShooterSetpoint getShooterSetpoint() {
         double dist = getSpeakerDist();
         double angle = InterpolatingTables.getAngleTable().get(dist);
         double speed = InterpolatingTables.getSpeedTable().get(dist);
         angle -= Controls.DriverControls.SwerveForwardAxis.getAsDouble();
         speed -= Controls.DriverControls.SwerveForwardAxis.getAsDouble();
-        return new double[]{speed, angle};
+        return new ShooterSetpoint(speed, angle);
     }
 }

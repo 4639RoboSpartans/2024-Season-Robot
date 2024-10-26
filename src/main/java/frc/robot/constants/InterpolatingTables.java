@@ -1,13 +1,13 @@
 package frc.robot.constants;
 
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import frc.robot.subsystems.shooter.constants.ShooterConstants;
 import frc.robot.tuning.TunableTableSource;
 
 public class InterpolatingTables {
     private static TunableTableSource table;
     private static double[][] shots;
     private static InterpolatingDoubleTreeMap angleTable, speedTable;
-    private static double ShooterLowerOffset = 0.92;
 
     private static double ANGLE_OFFSET = 0;
 
@@ -16,13 +16,13 @@ public class InterpolatingTables {
         speedTable = new InterpolatingDoubleTreeMap();
 
         shots = new double[][]{
-            {1.2, 24.25, ShooterLowerOffset - 0.095},
-            {2.1, 26.5, ShooterLowerOffset - 0.048},
-            {2.6, 30, ShooterLowerOffset - 0.0325},
-            {3.1, 34.5, ShooterLowerOffset - 0.02},
-            {4.0, 55.75, ShooterLowerOffset - 0.01},
-            {4.1, 56.5, ShooterLowerOffset - 0.005},
-            {4.3, 58.5, ShooterLowerOffset}
+            {1.2, 24.25, ShooterConstants.ShooterLowerOffset - 0.095},
+            {2.1, 26.5, ShooterConstants.ShooterLowerOffset - 0.048},
+            {2.6, 30, ShooterConstants.ShooterLowerOffset - 0.0325},
+            {3.1, 34.5, ShooterConstants.ShooterLowerOffset - 0.02},
+            {4.0, 55.75, ShooterConstants.ShooterLowerOffset - 0.01},
+            {4.1, 56.5, ShooterConstants.ShooterLowerOffset - 0.005},
+            {4.3, 58.5, ShooterConstants.ShooterLowerOffset}
         };
 
         table = new TunableTableSource(
