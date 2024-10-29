@@ -1,36 +1,76 @@
 {
-  "HALProvider": {
-    "Other Devices": {
-      "Pigeon 2 (v6)[20]": {
-        "header": {
-          "open": true
-        }
-      }
-    }
-  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
       "/SmartDashboard/Alliance": "String Chooser",
       "/SmartDashboard/Autons": "String Chooser",
+      "/SmartDashboard/Drive/Field": "Field2d",
       "/SmartDashboard/Row select for Shooter/Shooter Setpoints": "String Chooser",
       "/SmartDashboard/Row select for robot.shooter.SetPointTable": "String Chooser",
       "/SmartDashboard/SendableChooser[2]": "String Chooser",
+      "/SmartDashboard/Shooter/Mech": "Mechanism2d",
       "/SmartDashboard/field": "Field2d"
+    },
+    "windows": {
+      "/SmartDashboard/Shooter/Mech": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/field": {
+        "bottom": 1476,
+        "height": 8.210550308227539,
+        "left": 150,
+        "right": 2961,
+        "top": 79,
+        "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "SmartDashboard": {
+        "Shooter": {
+          "Mech": {
+            "open": true
+          },
+          "open": true
+        },
+        "open": true
+      }
     }
   },
   "NetworkTables Info": {
+    "Clients": {
+      "open": true
+    },
     "Server": {
       "Publishers": {
         "open": true
       },
       "Subscribers": {
         "open": true
-      }
+      },
+      "open": true
     },
     "visible": true
   },
-  "NetworkTables View": {
-    "visible": false
+  "Plot": {
+    "Plot <0>": {
+      "plots": [
+        {
+          "backgroundColor": [
+            0.0,
+            0.0,
+            0.0,
+            0.8500000238418579
+          ],
+          "height": 326
+        }
+      ]
+    }
   }
 }

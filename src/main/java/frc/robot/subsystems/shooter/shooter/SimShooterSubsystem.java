@@ -1,5 +1,6 @@
 package frc.robot.subsystems.shooter.shooter;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.shooter.constants.ShootingMode;
 
 public class SimShooterSubsystem extends ShooterSubsystem {
@@ -12,6 +13,11 @@ public class SimShooterSubsystem extends ShooterSubsystem {
     @Override
     protected void setShootingMode(ShootingMode mode) {
         this.mode = mode;
+    }
+
+    @Override
+    public Command setShootingModeCommand(ShootingMode mode) {
+        return runOnce(() -> setShootingMode(mode));
     }
 
     @Override

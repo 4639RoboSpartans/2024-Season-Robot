@@ -49,9 +49,6 @@ public class RobotContainer {
         swerveDriveSubsystem.setDefaultCommand(
                 swerveDriveSubsystem.driveFieldCentricCommand()
         );
-        shooter.setDefaultCommand(
-                shooter.setShootingMode(ShootingMode.IDLE)
-        );
 
         DriverControls.SOTF.and(indexer.hopperHasNote())
                 .whileTrue(
@@ -72,6 +69,8 @@ public class RobotContainer {
                                         CommandFactory.autoShootCommand()
                                 )
                         )
+                ).onFalse(
+                        CommandFactory.resetCommand()
                 );
 
         DriverControls.AimButton
@@ -82,6 +81,8 @@ public class RobotContainer {
                                 ),
                                 CommandFactory.autoShootCommand()
                         )
+                ).onFalse(
+                        CommandFactory.resetCommand()
                 );
 
         OperatorControls.IntakeButton
@@ -113,6 +114,8 @@ public class RobotContainer {
         OperatorControls.RunSpeakerShooterButton.and(indexer.hopperHasNote())
                 .whileTrue(
                         CommandFactory.autoShootCommand()
+                ).onFalse(
+                        CommandFactory.resetCommand()
                 );
 
         OperatorControls.ManualShooterButton
@@ -121,12 +124,8 @@ public class RobotContainer {
                                 shooter.setShootingMode(ShootingMode.MANUAL),
                                 indexer.setIndexerStateCommand(IndexerState.FEED)
                         )
-                )
-                .onFalse(
-                        Commands.parallel(
-                                indexer.setIndexerStateCommand(IndexerState.IDLE),
-                                shooter.setShootingMode(ShootingMode.IDLE)
-                        )
+                ).onFalse(
+                        CommandFactory.resetCommand()
                 );
     }
 
@@ -136,5 +135,6 @@ public class RobotContainer {
 
     public void sendSubsystems() {
         SmartDashboard.putData(swerveDriveSubsystem);
+        SmartDashboard.putData(indexer);
     }
 }

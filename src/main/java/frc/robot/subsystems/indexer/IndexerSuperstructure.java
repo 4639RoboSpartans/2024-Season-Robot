@@ -1,5 +1,6 @@
 package frc.robot.subsystems.indexer;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -47,5 +48,15 @@ public class IndexerSuperstructure extends SubsystemBase {
 
     public Trigger hopperHasNote() {
         return hopper.hasNoteTrigger();
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("Indexer");
+        builder.addBooleanProperty(
+                "Has Note",
+                this.hopperHasNote(),
+                null
+        );
     }
 }

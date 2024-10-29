@@ -53,16 +53,17 @@ public class ShooterSuperstructure extends SubsystemBase {
                 .and(pivot.atAngleTrigger());
     }
 
-    public Rotation2d getShooterRotation(double shooterRotations) {
+    public static Rotation2d getShooterRotation(double shooterRotations) {
         double lowerOffset = ShooterConstants.ShooterLowerOffset;
         double higherOffset = ShooterConstants.ShooterLowerOffset - 0.095;
-        double percent = (lowerOffset - shooterRotations) / (lowerOffset - higherOffset);
-        return Rotation2d.fromRadians(percent * 0.2);
+        return Rotation2d.fromRotations((shooterRotations - lowerOffset) / (higherOffset - lowerOffset) * 0.2 + 0.05);
     }
 
     @Override
     public void periodic() {
-        shooterArm.setAngle(getShooterRotation(pivot.getCurrentAngle()));
+        shooterArm.setAngle(Rotation2d.fromRadians(pivot.getCurrentAngle()));
         SmartDashboard.putData("Shooter/Mech", shooterMech);
+        SmartDashboard.putNumber("Shooter/Angle", getShooterRotation(pivot.getCurrentAngle()).getDegrees());
+        SmartDashboard.putNumber("Shooter/Raw Angle", pivot.getCurrentAngle());
     }
 }

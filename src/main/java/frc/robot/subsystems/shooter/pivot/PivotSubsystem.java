@@ -39,7 +39,7 @@ public abstract class PivotSubsystem extends SubsystemBase {
     double getAngle(ShootingMode mode) {
         return switch (mode) {
             case IDLE -> ShooterLowerOffset;
-            case AUTO, SPINUP -> AimUtil.getShooterSetpoint().speed();
+            case AUTO, SPINUP -> AimUtil.getShooterSetpoint().angle();
             case MANUAL -> ShooterConstants.SHOOTER_MANUAL_ANGLE;
             case LAUNCH -> ShooterConstants.SHOOTER_LAUNCH_ANGLE;
         };

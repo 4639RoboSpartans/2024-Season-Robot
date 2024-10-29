@@ -6,6 +6,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.shooter.constants.ShooterConstants;
 import frc.robot.subsystems.shooter.constants.ShooterPIDs;
 import frc.robot.subsystems.shooter.constants.ShootingMode;
@@ -52,6 +53,11 @@ public class ConcreteShooterSubsystem extends ShooterSubsystem {
     @Override
     protected void setShootingMode(ShootingMode mode) {
         this.mode = mode;
+    }
+
+    @Override
+    public Command setShootingModeCommand(ShootingMode mode) {
+        return runOnce(() -> setShootingMode(mode));
     }
 
     @Override

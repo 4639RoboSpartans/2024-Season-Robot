@@ -12,19 +12,22 @@ public class CommandFactory {
     private static final IndexerSuperstructure indexer = IndexerSuperstructure.getInstance();
 
     public static Command autoShootCommand() {
-        return Commands.race(
-                Commands.sequence(
-                        Commands.waitUntil(
-                                shooter.atRequestedStateTrigger()
-                        ),
-                        indexer.setIndexerStateCommand(IndexerState.FEED)
-                                .until(indexer.hopperHasNote()),
-                        Commands.parallel(
-                                indexer.setIndexerStateCommand(IndexerState.IDLE),
-                                shooter.setShootingMode(ShootingMode.IDLE)
-                        )
+        return Commands.sequence(
+                shooter.setShootingMode(ShootingMode.AUTO),
+                Commands.waitUntil(
+                        shooter.atRequestedStateTrigger()
                 ),
-                shooter.setShootingMode(ShootingMode.AUTO)
+                indexer.setIndexerStateCommand(IndexerState.FEED),
+                Commands.waitUntil(indexer.hopperHasNote().negate())
+        ).andThen(
+                resetCommand()
+        );
+    }
+
+    public static Command resetCommand() {
+        return Commands.parallel(
+                indexer.setIndexerStateCommand(IndexerState.IDLE),
+                shooter.setShootingMode(ShootingMode.IDLE)
         );
     }
 }

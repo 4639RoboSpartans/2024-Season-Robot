@@ -9,7 +9,7 @@ public class InterpolatingTables {
     private static double[][] shots;
     private static InterpolatingDoubleTreeMap angleTable, speedTable;
 
-    private static double ANGLE_OFFSET = 0;
+    private static final double ANGLE_OFFSET = 0;
 
     public static void initializeTables() {
         angleTable = new InterpolatingDoubleTreeMap();

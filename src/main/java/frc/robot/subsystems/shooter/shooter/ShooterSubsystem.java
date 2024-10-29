@@ -20,9 +20,7 @@ public abstract class ShooterSubsystem extends SubsystemBase {
         return instance;
     }
 
-    public Command setShootingModeCommand(ShootingMode mode) {
-        return Commands.runOnce(() -> setShootingMode(mode));
-    }
+    public abstract Command setShootingModeCommand(ShootingMode mode);
 
     public Trigger atSpeedTrigger() {
         return new Trigger(this::atSpeedSetpoint);
