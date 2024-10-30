@@ -58,5 +58,10 @@ public class IndexerSuperstructure extends SubsystemBase {
                 this.hopperHasNote(),
                 null
         );
+        builder.addStringProperty(
+                "State",
+                () -> state.name(),
+                null
+        );
     }
 }

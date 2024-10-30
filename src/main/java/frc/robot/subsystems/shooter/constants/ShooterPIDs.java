@@ -24,9 +24,10 @@ public class ShooterPIDs {
         SHOOTER_PIVOT_kP.setDefault(34);
         SHOOTER_PIVOT_kI.setDefault(0.0);
         SHOOTER_PIVOT_kD.setDefault(1);
-        SHOOTER_PIVOT_VELOCITY.setDefault(3);
-        SHOOTER_PIVOT_ACCELERATION.setDefault(3);
+        SHOOTER_PIVOT_VELOCITY.setDefault(10);
+        SHOOTER_PIVOT_ACCELERATION.setDefault(10);
         SHOOTER_SHOOTER_ACCELERATION.setDefault(3);
         SHOOTER_SHOOTER_JERK.setDefault(3);
+        SHOOTER_PIVOT_kP.setDefault(0.0021693);
     }
 }

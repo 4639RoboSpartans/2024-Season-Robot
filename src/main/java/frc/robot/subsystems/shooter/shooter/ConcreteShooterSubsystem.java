@@ -100,4 +100,9 @@ public class ConcreteShooterSubsystem extends ShooterSubsystem {
         shooterLeft.getConfigurator().apply(config);
         shooterRight.getConfigurator().apply(config);
     }
+
+    @Override
+    public double getTargetSpeed() {
+        return getSpeed(mode);
+    }
 }

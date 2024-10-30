@@ -4,6 +4,7 @@
       "/FMSInfo": "FMSInfo",
       "/SmartDashboard/Alliance": "String Chooser",
       "/SmartDashboard/Autons": "String Chooser",
+      "/SmartDashboard/Autos": "String Chooser",
       "/SmartDashboard/Drive/Field": "Field2d",
       "/SmartDashboard/Row select for Shooter/Shooter Setpoints": "String Chooser",
       "/SmartDashboard/Row select for robot.shooter.SetPointTable": "String Chooser",
@@ -33,6 +34,9 @@
   "NetworkTables": {
     "transitory": {
       "SmartDashboard": {
+        "IndexerSuperstructure": {
+          "open": true
+        },
         "Shooter": {
           "Mech": {
             "open": true
@@ -70,7 +74,10 @@
           ],
           "height": 326
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     }
   }
 }

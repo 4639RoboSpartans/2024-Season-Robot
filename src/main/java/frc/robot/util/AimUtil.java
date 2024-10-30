@@ -124,8 +124,8 @@ public class AimUtil {
         double dist = getSpeakerDist();
         double angle = InterpolatingTables.getAngleTable().get(dist);
         double speed = InterpolatingTables.getSpeedTable().get(dist);
-        angle -= Controls.DriverControls.SwerveForwardAxis.getAsDouble() * 0.03;
-        speed -= Controls.DriverControls.SwerveForwardAxis.getAsDouble() * 0.03;
+        angle -= Controls.DriverControls.SwerveForwardAxis.getAsDouble() * 0.005;
+        speed -= Controls.DriverControls.SwerveForwardAxis.getAsDouble() * 0.005;
         return new ShooterSetpoint(speed, angle);
     }
 }

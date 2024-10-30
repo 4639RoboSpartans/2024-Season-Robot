@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.autos.Autos;
 import frc.robot.constants.Controls.*;
 import frc.robot.constants.InterpolatingTables;
 import frc.robot.oi.OI;
@@ -38,9 +39,9 @@ public class RobotContainer {
         indexer = IndexerSuperstructure.getInstance();
 
         autos = new SendableChooser<>();
-        autos.setDefaultOption("null auto", new WaitCommand(1));
-
-        SmartDashboard.putData("Autons", autos);
+        autos.setDefaultOption("Null Auto", new WaitCommand(1));
+        autos.addOption("Generated Auto", Autos.getAutoCommand());
+        SmartDashboard.putData("Autos", autos);
 
         configureBindings();
     }
@@ -54,20 +55,7 @@ public class RobotContainer {
                 .whileTrue(
                         Commands.parallel(
                                 swerveDriveSubsystem.SOTFCommand(),
-                                Commands.sequence(
-                                        Commands.waitUntil(
-                                                swerveDriveSubsystem.inShootingRange()
-                                        ),
-                                        Commands.parallel(
-                                                Commands.waitUntil(
-                                                        swerveDriveSubsystem.isAligned()
-                                                                .and(swerveDriveSubsystem.inShootingSector())
-                                                                .and(swerveDriveSubsystem.inShootingRange())
-                                                ),
-                                                shooter.setShootingMode(ShootingMode.SPINUP)
-                                        ),
-                                        CommandFactory.autoShootCommand()
-                                )
+                                CommandFactory.waitThenShootCommand()
                         )
                 ).onFalse(
                         CommandFactory.resetCommand()

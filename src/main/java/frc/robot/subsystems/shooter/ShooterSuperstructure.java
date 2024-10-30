@@ -1,6 +1,7 @@
 package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
@@ -36,7 +37,7 @@ public class ShooterSuperstructure extends SubsystemBase {
         MechanismRoot2d shooterRoot = shooterMech.getRoot("Shooter Root", 1, 1);
         shooterArm = shooterRoot.append(
                 new MechanismLigament2d(
-                        "Shooter",
+                        "Shooter Arm",
                         4.0,
                         getShooterRotation(pivot.getCurrentAngle()).getDegrees()
                 )
@@ -63,7 +64,22 @@ public class ShooterSuperstructure extends SubsystemBase {
     public void periodic() {
         shooterArm.setAngle(Rotation2d.fromRadians(pivot.getCurrentAngle()));
         SmartDashboard.putData("Shooter/Mech", shooterMech);
-        SmartDashboard.putNumber("Shooter/Angle", getShooterRotation(pivot.getCurrentAngle()).getDegrees());
-        SmartDashboard.putNumber("Shooter/Raw Angle", pivot.getCurrentAngle());
+        SmartDashboard.putNumber("Shooter/Speed", shooter.getCurrentSpeed());
+        SmartDashboard.putNumber("Shooter/Target Speed", shooter.getTargetSpeed());
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        builder.setSmartDashboardType("Shooter");
+        builder.addDoubleProperty(
+                "Current Speed",
+                shooter::getCurrentSpeed,
+                null
+        );
+        builder.addDoubleProperty(
+                "Target Speed",
+                shooter::getTargetSpeed,
+                null
+        );
     }
 }

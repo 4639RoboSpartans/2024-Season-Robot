@@ -1,22 +1,11 @@
 package frc.robot.subsystems.shooter.pivot;
 
-import com.revrobotics.CANSparkLowLevel;
-import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
-import frc.robot.constants.Constants;
 import frc.robot.subsystems.shooter.ShooterSuperstructure;
-import frc.robot.subsystems.shooter.constants.ShooterConstants;
 import frc.robot.subsystems.shooter.constants.ShooterPIDs;
 import frc.robot.subsystems.shooter.constants.ShootingMode;
 
@@ -74,8 +63,7 @@ public class SimPivotSubsystem extends PivotSubsystem {
         armSim.setState(armSim.getAngleRads(), armSim.getVelocityRadPerSec());
     }
 
-    /** Run the control loop to reach and maintain the setpoint from the preferences. */
-    public void reachSetpoint() {
+    private void reachSetpoint() {
         var pidOutput =
                 pivotPID.calculate(
                         armSim.getAngleRads(),
