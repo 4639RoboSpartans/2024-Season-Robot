@@ -16,7 +16,7 @@ public class HopperSubsystem extends SubsystemBase implements IHopperSubsystem {
     private final DigitalInput ir;
     private boolean hasNote = false;
     private boolean irActive;
-    private Debouncer irDebouncer = new Debouncer(0.65);
+    private Debouncer irDebouncer = new Debouncer(0.25);
 
     public HopperSubsystem(int motorID) {
         motor = new CANSparkMax(motorID, CANSparkMax.MotorType.kBrushed);

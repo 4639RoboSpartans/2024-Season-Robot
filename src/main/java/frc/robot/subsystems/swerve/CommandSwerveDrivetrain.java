@@ -22,6 +22,7 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -59,6 +60,9 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements ISwerve
     private final Field2d field = new Field2d();
     private DriveState state;
 
+    private final SlewRateLimiter limiterForward;
+    private final SlewRateLimiter limiterSideways;
+
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, SwerveModuleConstants... modules) {
         super(driveTrainConstants, modules);
         seedFieldRelative(new Pose2d());
@@ -69,15 +73,21 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements ISwerve
         state = DriveState.TELEOP;
         SOTFRequest.HeadingController = new PhoenixPIDController(8, 0, 0);
         SOTFRequest.HeadingController.setTolerance(Rotation2d.fromDegrees(7.5).getRadians());
+        limiterForward = new SlewRateLimiter(100);
+        limiterSideways = new SlewRateLimiter(100);
     }
 
     private SwerveRequest fieldCentricRequestSupplier() {
-        double forwardsSpeed = Controls.DriverControls.SwerveForwardAxis.getAsDouble() * CURRENT_MAX_ROBOT_MPS;
-        double sidewaysSpeed = Controls.DriverControls.SwerveStrafeAxis.getAsDouble() * CURRENT_MAX_ROBOT_MPS;
+        double forwardsSpeedRaw = Controls.DriverControls.SwerveForwardAxis.getAsDouble();
+        double sidewaysSpeedRaw = Controls.DriverControls.SwerveStrafeAxis.getAsDouble();
+
+
+        double forwardsSpeed = limiterForward.calculate(forwardsSpeedRaw * CURRENT_MAX_ROBOT_MPS);
+        double sidewaysSpeed = limiterSideways.calculate(sidewaysSpeedRaw * CURRENT_MAX_ROBOT_MPS);
         double rotationSpeed = Controls.DriverControls.SwerveRotationAxis.getAsDouble() * CURRENT_MAX_ROBOT_MPS;
         return fieldCentricRequest
-                .withVelocityX(forwardsSpeed)
-                .withVelocityY(sidewaysSpeed)
+                .withVelocityX(forwardsSpeedRaw)
+                .withVelocityY(sidewaysSpeedRaw)
                 .withRotationalRate(rotationSpeed);
     }
 
